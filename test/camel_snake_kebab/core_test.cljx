@@ -32,15 +32,15 @@
 (deftest format-case-test
   (testing "examples"
     (are [x y] (= x y)
-      'FluxCapacitor  (csk/->CamelCase 'flux-capacitor)
-      "I_AM_CONSTANT" (csk/->SNAKE_CASE "I am constant")
+      'FluxCapacitor  (csk/->UCamelCase 'flux-capacitor)
+      "I_AM_CONSTANT" (csk/->UUSNAKE_CASE "I am constant")
       :object-id      (csk/->kebab-case :object_id)
       "X-SSL-Cipher"  (csk/->HTTP-Header-Case "x-ssl-cipher")
       :object-id      (csk/->kebab-case-keyword "object_id")))
 
   (testing "rejection of namespaced keywords and symbols"
-    (is (thrown? ExceptionInfo (csk/->CamelCase (keyword "a" "b"))))
-    (is (thrown? ExceptionInfo (csk/->CamelCase (symbol  "a" "b")))))
+    (is (thrown? ExceptionInfo (csk/->UCamelCase (keyword "a" "b"))))
+    (is (thrown? ExceptionInfo (csk/->UCamelCase (symbol  "a" "b")))))
 
   (testing "all the type preserving functions"
     (let
@@ -51,10 +51,10 @@
                   "foo_bar"
                   "foo-bar"
                   "Foo_Bar"]
-       functions [csk/->CamelCase
+       functions [csk/->UCamelCase
                   csk/->camelCase
-                  csk/->SNAKE_CASE
-                  csk/->Snake_case
+                  csk/->UUSNAKE_CASE
+                  csk/->USnake_case
                   csk/->snake_case
                   csk/->kebab-case
                   csk/->Camel_Snake_Case]
@@ -65,8 +65,8 @@
 
   (testing "some of the type converting functions"
     (are [x y] (= x y)
-      :FooBar   (csk/->CamelCaseKeyword  'foo-bar)
-      "FOO_BAR" (csk/->SNAKE_CASE_STRING :foo-bar)
+      :FooBar   (csk/->UCamelCaseKeyword  'foo-bar)
+      "FOO_BAR" (csk/->UUSNAKE_CASE_STRING :foo-bar)
       'foo-bar  (csk/->kebab-case-symbol "foo bar"))))
 
 (deftest http-header-case-test
